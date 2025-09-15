@@ -29,7 +29,10 @@ class BasicEvents(Object):
 
         # --- Relation Provider events ---
         self.framework.observe(
-            self.on[JWT_CONFIG_RELATION].relation_created, self._on_jwt_relation_changed
+            self.charm.on[JWT_CONFIG_RELATION].relation_created, self._on_jwt_relation_events
+        )
+        self.framework.observe(
+            self.charm.on[JWT_CONFIG_RELATION].relation_changed, self._on_jwt_relation_events
         )
 
     def _on_start(self, event: ops.StartEvent) -> None:
@@ -62,7 +65,7 @@ class BasicEvents(Object):
         logger.debug(f"Processing secret-change for {signing_key_secret}")
         self.charm.jwt_config_manager.update_provider_data()
 
-    def _on_jwt_relation_changed(self, event: ops.RelationEvent) -> None:
+    def _on_jwt_relation_events(self, event: ops.RelationChangedEvent) -> None:
         """Handle all changes to the JWT relation from provider side."""
         if not self.charm.unit.is_leader():
             return

@@ -11,8 +11,8 @@ from data_platform_helpers.advanced_statuses.protocol import ManagerStatusProtoc
 from data_platform_helpers.advanced_statuses.types import Scope
 from ops.model import ConfigData
 
-from core.context import Context
-from statuses import CharmStatuses
+from src.core.state import State
+from src.statuses import CharmStatuses
 
 logger = logging.getLogger(__name__)
 
@@ -21,39 +21,36 @@ class JwtConfigManager(ManagerStatusProtocol):
     """Handle the configuration of etcd."""
 
     name: str = "jwt-config"
-    context: Context
+    state: State
     config: ConfigData
 
-    def __init__(
-        self,
-        context: Context,
-    ):
-        self.context = context
+    def __init__(self, state: State):
+        self.state = state
 
     def get_statuses(self, scope: Scope, recompute: bool = False) -> list[StatusObject]:
         """Compute the Cluster manager's statuses."""
         status_list: list[StatusObject] = []
 
-        if not self.context.jwt_auth_config:
+        if not self.state.jwt_auth_config:
             status_list.append(CharmStatuses.CONFIG_OPTIONS_INVALID.value)
 
-        if not self.context.provider_data.relations:
+        if not self.state.provider_data_interface.relations:
             status_list.append(CharmStatuses.NO_PROVIDER_RELATION.value)
 
         return status_list if status_list else [CharmStatuses.ACTIVE_IDLE.value]
 
     def update_provider_data(self):
         """Update the contents of the relation data bag."""
-        if not self.context.provider_data.relations:
+        if not self.state.provider_data_interface.relations:
             logger.info("No relation to update")
             return
 
-        if not self.context.jwt_auth_config:
+        if not self.state.jwt_auth_config:
             logger.error("Configuration settings invalid, cannot update provider data")
             return
 
-        for relation in self.context.provider_data.relations:
-            self.context.provider_data.update_relation_data(
-                relation.id, self.context.jwt_auth_config.to_dict()
+        for relation in self.state.provider_data_interface.relations:
+            self.state.provider_data_interface.update_relation_data(
+                relation.id, self.state.jwt_auth_config.to_dict()
             )
             logger.info(f"Updated relation id {relation.id}")

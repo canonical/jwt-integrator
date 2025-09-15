@@ -3,35 +3,39 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-"""Charm Context definition and parsing logic."""
+"""Charm State definition and parsing logic."""
 
 import logging
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from data_platform_helpers.advanced_statuses.protocol import StatusesState, StatusesStateProtocol
-from lib.charms.data_platform_libs.v0.data_interfaces import ProviderData
-from ops import ConfigData, ModelError, Object, SecretNotFoundError
 
-from core.models import JWTAuthConfiguration
+from ops import ConfigData, ModelError, Object, Relation, SecretNotFoundError
+
+from core.models import JWTAuthConfiguration, JwtProviderData
 from literals import JWT_CONFIG_RELATION, STATUS_PEERS_RELATION
+
+if TYPE_CHECKING:
+    from src.charm import JwtIntegratorCharm
 
 logger = logging.getLogger(__name__)
 
 
-class Context(Object, StatusesStateProtocol):
+class State(Object, StatusesStateProtocol):
     """Properties and relations of the charm."""
 
-    def __init__(self, config: ConfigData):
-        super().__init__(key="charm_context")
+    def __init__(self, charm: "JwtIntegratorCharm"):
+        super().__init__(parent=charm, key="charm_state")
 
+        self.charm = charm
         self.statuses_relation_name = STATUS_PEERS_RELATION
         self.statuses = StatusesState(self, self.statuses_relation_name)
-        self.charm_config = config
+        self.charm_config = charm.config
 
     @property
-    def provider_data(self) -> ProviderData:
+    def provider_data_interface(self) -> JwtProviderData:
         """Get the etcd provides interface."""
-        return ProviderData(self.model, relation_name=JWT_CONFIG_RELATION)
+        return JwtProviderData(self.model, relation_name=JWT_CONFIG_RELATION)
 
     @property
     def jwt_auth_config(self) -> Optional[JWTAuthConfiguration]:

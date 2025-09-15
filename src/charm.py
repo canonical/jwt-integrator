@@ -9,7 +9,7 @@ import logging
 import ops
 from data_platform_helpers.advanced_statuses.handler import StatusHandler
 
-from core.context import Context
+from core.state import State
 from events.basic_handler import BasicEvents
 from managers.jwt_config import JwtConfigManager
 
@@ -21,10 +21,10 @@ class JwtIntegratorCharm(ops.CharmBase):
 
     def __init__(self, framework: ops.Framework):
         super().__init__(framework)
-        self.context = Context(config=self.config)
+        self.state = State(self)
 
         # --- MANAGERS ---
-        self.jwt_config_manager = JwtConfigManager(context=self.context)
+        self.jwt_config_manager = JwtConfigManager(state=self.state)
 
         # --- STATUS HANDLER ---
         self.status = StatusHandler(  # priority order
