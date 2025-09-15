@@ -1,0 +1,97 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+[tool.poetry]
+package-mode = false
+requires-poetry = ">=2.0.0"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+ops = "^3.1.0"
+data-platform-helpers = ">=0.1.7"
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"
+
+[tool.poetry.group.charm-libs.dependencies]
+# data_platform_libs/v0/data_interfaces.py
+ops = ">=2.0.0"
+
+[tool.poetry.group.format]
+optional = true
+
+[tool.poetry.group.format.dependencies]
+ruff = "*"
+
+[tool.poetry.group.lint]
+optional = true
+
+[tool.poetry.group.lint.dependencies]
+ruff = "*"
+codespell = "*"
+shellcheck-py = "*"
+
+[tool.poetry.group.unit.dependencies]
+pytest = "*"
+pytest-asyncio = "*"
+pytest-mock = "*"
+coverage = { extras = ["toml"], version = "*" }
+parameterized = "*"
+ops-scenario = "*"
+ops = "^3.1.0"
+
+[tool.poetry.group.integration.dependencies]
+ops = "^3.1.0"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-operator = "^0.43.1"
+juju = "==3.6.0"
+pydantic = ">= 1.0"
+data-platform-helpers = ">=0.1.7"
+
+# Testing tools configuration
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+log_cli_level = "INFO"
+asyncio_mode = "auto"
+markers = ["unstable"]
+
+# Formatting tools configuration
+[tool.ruff]
+line-length = 99
+src = ["src", "tests"]
+extend-exclude = ["__pycache__", "*.egg_info"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "C", "N", "D", "I001"]
+extend-ignore = [
+  "D203",
+  "D204",
+  "D213",
+  "D215",
+  "D400",
+  "D401",
+  "D404",
+  "D406",
+  "D407",
+  "D408",
+  "D409",
+  "D413",
+]
+ignore = ["E501", "D107"]
+per-file-ignores = { "tests/*" = ["D100", "D101", "D102", "D103", "D104", "E999"] }
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.pyright]
+include = ["src"]
+extraPaths = ["./lib", "src"]
+pythonVersion = "3.12"
+pythonPlatform = "All"
