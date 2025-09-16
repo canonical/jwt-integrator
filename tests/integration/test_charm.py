@@ -3,11 +3,10 @@
 # See LICENSE file for licensing details.
 
 import asyncio
-import logging
 from pathlib import Path
 
-import yaml
 import pytest
+import yaml
 from pytest_operator.plugin import OpsTest
 
 METADATA = yaml.safe_load(Path("./metadata.yaml").read_text())
@@ -21,12 +20,14 @@ def charm() -> str:
     # Return str instead of pathlib.Path since python-libjuju's model.deploy(), juju deploy, and
     # juju bundle files expect local charms to begin with `./` or `/` to distinguish them from
     # Charmhub charms.
-    return f"./jwt-integrator_ubuntu@24.04-amd64.charm"
+    return "./jwt-integrator_ubuntu@24.04-amd64.charm"
+
 
 @pytest.fixture
 def requirer_charm() -> str:
     """Path to the requirer charm file to use for testing."""
-    return f"./tests/integration/requirer-charm/requirer-charm_ubuntu@24.04-amd64.charm"
+    return "./tests/integration/requirer-charm/requirer-charm_ubuntu@24.04-amd64.charm"
+
 
 @pytest.mark.abort_on_fail
 async def test_build_and_deploy(charm: str, requirer_charm: str, ops_test: OpsTest) -> None:
@@ -37,15 +38,16 @@ async def test_build_and_deploy(charm: str, requirer_charm: str, ops_test: OpsTe
     )
 
     await ops_test.model.wait_for_idle(apps=[APP_NAME], status="blocked")
-    assert "invalid configuration parameters" in ops_test.model.applications[APP_NAME].status_message, "should be blocked because of invalid configuration"
+    assert (
+        "invalid configuration parameters" in ops_test.model.applications[APP_NAME].status_message
+    ), "should be blocked because of invalid configuration"
+
 
 @pytest.mark.abort_on_fail
 async def test_configure_jwt_integrator(ops_test: OpsTest) -> None:
     """Test setting configuration options."""
     secret_name = "signing-key-secret"
-    secret_id = await ops_test.model.add_secret(
-            name=secret_name, data_args=["signing-key=abc"]
-        )
+    secret_id = await ops_test.model.add_secret(name=secret_name, data_args=["signing-key=abc"])
     await ops_test.model.grant_secret(secret_name=secret_name, application=APP_NAME)
 
     configuration_parameters = {
@@ -61,8 +63,9 @@ async def test_configure_jwt_integrator(ops_test: OpsTest) -> None:
     # apply new configuration options
     await ops_test.model.applications[APP_NAME].set_config(configuration_parameters)
     await ops_test.model.wait_for_idle(apps=[APP_NAME], status="blocked")
-    assert "no relation for jwt interface" in ops_test.model.applications[
-        APP_NAME].status_message, "should be blocked because of missing relation"
+    assert (
+        "no relation for jwt interface" in ops_test.model.applications[APP_NAME].status_message
+    ), "should be blocked because of missing relation"
 
 
 @pytest.mark.abort_on_fail

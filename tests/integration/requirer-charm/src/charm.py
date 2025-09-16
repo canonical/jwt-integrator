@@ -55,9 +55,9 @@ class RequirerCharmCharm(ops.CharmBase):
             return
 
         if event.secret.label != self.jwt_requires._generate_secret_label(
-                relation.name,
-                relation.id,
-                "extra",
+            relation.name,
+            relation.id,
+            "extra",
         ):
             logging.debug("Updated secret not relevant")
             return
