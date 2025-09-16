@@ -42,11 +42,9 @@ ops = "^3.1.0"
 
 [tool.poetry.group.integration.dependencies]
 ops = "^3.1.0"
-pytest = "*"
+pytest = "^8.4.2"
 pytest-asyncio = "*"
 pytest-operator = "^0.43.1"
-allure-pytest = "*"
-allure-pytest-default-results = "^0.1.2"
 juju = "==3.6.0"
 pydantic = ">= 1.0"
 data-platform-helpers = ">=0.1.7"
@@ -62,7 +60,7 @@ show_missing = true
 minversion = "6.0"
 log_cli_level = "INFO"
 asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
+markers = ["unstable"]
 
 # Formatting tools configuration
 [tool.ruff]
