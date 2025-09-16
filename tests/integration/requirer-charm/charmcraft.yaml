@@ -7,9 +7,8 @@ summary: This charm serves for testing the JWT integration.
 description: |
   This charm serves for testing the JWT integration.
 
-base: ubuntu@24.04
 platforms:
-  amd64:
+  ubuntu@24.04:amd64:
 
 
 parts:
