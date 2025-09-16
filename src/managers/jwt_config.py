@@ -28,7 +28,7 @@ class JwtConfigManager(ManagerStatusProtocol):
         self.state = state
 
     def get_statuses(self, scope: Scope, recompute: bool = False) -> list[StatusObject]:
-        """Compute the Cluster manager's statuses."""
+        """Compute the manager's statuses."""
         status_list: list[StatusObject] = []
 
         if not self.state.jwt_auth_config:
