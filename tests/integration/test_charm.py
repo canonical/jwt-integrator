@@ -21,7 +21,7 @@ def charm() -> str:
     # Return str instead of pathlib.Path since python-libjuju's model.deploy(), juju deploy, and
     # juju bundle files expect local charms to begin with `./` or `/` to distinguish them from
     # Charmhub charms.
-    return f"./charmed-etcd_ubuntu@24.04-amd64.charm"
+    return f"./jwt-integrator_ubuntu@24.04-amd64.charm"
 
 @pytest.fixture
 def requirer_charm() -> str:
@@ -51,11 +51,11 @@ async def test_configure_jwt_integrator(ops_test: OpsTest) -> None:
     configuration_parameters = {
         "signing-key": secret_id,
         "roles-key": "roles",
-        "jwt_header": "Authentication",
-        "subject_key": "sub",
-        "required_audience": "aud",
-        "required_issuer": "iss",
-        "jwt_clock_skew_tolerance": 30,
+        "jwt-header": "Authentication",
+        "subject-key": "sub",
+        "required-audience": "aud",
+        "required-issuer": "iss",
+        "jwt-clock-skew-tolerance": "30",
     }
 
     # apply new configuration options
