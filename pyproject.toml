@@ -45,6 +45,7 @@ ops = "^3.1.0"
 pytest = "^8.4.2"
 pytest-asyncio = "*"
 pytest-operator = "^0.43.1"
+pytest-operator-groups = {git = "https://github.com/canonical/data-platform-workflows", tag = "v35.0.2", subdirectory = "python/pytest_plugins/pytest_operator_groups"}
 juju = "==3.6.0"
 pydantic = ">= 1.0"
 data-platform-helpers = ">=0.1.7"
