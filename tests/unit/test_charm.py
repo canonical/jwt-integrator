@@ -6,12 +6,12 @@
 from pathlib import Path
 
 import yaml
+from helpers import status_is
 from ops import testing
 
 from src.charm import JwtIntegratorCharm
 from src.literals import JWT_CONFIG_RELATION, STATUS_PEERS_RELATION
 from src.statuses import CharmStatuses
-from helpers import status_is
 
 METADATA = yaml.safe_load(Path("./metadata.yaml").read_text())
 APP_NAME = METADATA["name"]
@@ -171,7 +171,7 @@ def test_jwt_relation_created():
     assert relation_secret.latest_content.get("signing-key") == "123"
 
 
-def test_jwt_relation_changed_without_requested_secret():
+def test_jwt_relation_changed():
     ctx = testing.Context(JwtIntegratorCharm)
 
     secret_key = "signing-key"
@@ -202,7 +202,10 @@ def test_jwt_relation_changed_without_requested_secret():
 
     assert status_is(state_out, CharmStatuses.ACTIVE_IDLE.value)
     assert jwt_relation_state.local_app_data["roles-key"] == "abc"
-    assert jwt_relation_state.local_app_data["signing-key"] == "123"
+    assert not jwt_relation_state.local_app_data.get("signing-key")
+    secret_id = jwt_relation_state.local_app_data["secret-extra"]
+    relation_secret = _get_secret_from_state(state_out, secret_id)
+    assert relation_secret.latest_content.get("signing-key") == "123"
 
 
 def test_config_changed():
@@ -220,7 +223,7 @@ def test_config_changed():
         endpoint=JWT_CONFIG_RELATION,
         remote_app_name="test",
         remote_app_data={},
-        local_app_data={"roles-key": "abc"},
+        local_app_data={},
     )
 
     # non-leader unit
@@ -235,7 +238,7 @@ def test_config_changed():
     jwt_relation_state = state_out.get_relation(jwt_relation.id)
 
     assert status_is(state_out, CharmStatuses.ACTIVE_IDLE.value)
-    assert jwt_relation_state.local_app_data["roles-key"] == "abc"
+    assert not jwt_relation_state.local_app_data.get("roles-key")
 
     # leader unit
     state_in = testing.State(
@@ -250,7 +253,7 @@ def test_config_changed():
 
     assert status_is(state_out, CharmStatuses.ACTIVE_IDLE.value)
     assert jwt_relation_state.local_app_data["roles-key"] == "xyz"
-    assert jwt_relation_state.local_app_data["signing-key"] == "123"
+    assert not jwt_relation_state.local_app_data.get("signing-key")
 
 
 def test_jwt_secret_changed():

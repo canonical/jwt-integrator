@@ -9,7 +9,6 @@ import logging
 from typing import TYPE_CHECKING, Optional
 
 from data_platform_helpers.advanced_statuses.protocol import StatusesState, StatusesStateProtocol
-
 from ops import ModelError, Object, SecretNotFoundError
 
 from core.models import JWTAuthConfiguration, JwtProviderData

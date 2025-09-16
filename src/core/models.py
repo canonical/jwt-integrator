@@ -9,7 +9,9 @@ import logging
 from dataclasses import dataclass
 from typing import Optional
 
-from charms.data_platform_libs.v0.data_interfaces import Data, get_encoded_list, REQ_SECRET_FIELDS, PROV_SECRET_FIELDS
+from charms.data_platform_libs.v0.data_interfaces import (
+    Data,
+)
 from ops import Model, Relation
 
 logger = logging.getLogger(__name__)
@@ -64,15 +66,11 @@ class JwtProviderData(Data):
     the data from provider side is added. Thereby we avoid running into `PrematureDataAccessError`
     in `update_relation_data`.
     """
+
     def __init__(self, model: Model, relation_name: str) -> None:
         super().__init__(model, relation_name)
 
     def _load_secrets_from_databag(self, relation: Relation) -> None:
         """Load secrets from the databag."""
-        requested_secrets = get_encoded_list(relation, relation.app, REQ_SECRET_FIELDS)
-        provided_secrets = get_encoded_list(relation, relation.app, PROV_SECRET_FIELDS)
-        if requested_secrets is not None:
-            self._local_secret_fields = requested_secrets
-
-        if provided_secrets is not None:
-            self._remote_secret_fields = provided_secrets
+        self._local_secret_fields = ["signing-key"]
+        self._remote_secret_fields = []

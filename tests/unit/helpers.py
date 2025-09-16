@@ -4,8 +4,8 @@
 
 from data_platform_helpers.advanced_statuses.models import StatusObject
 from data_platform_helpers.advanced_statuses.utils import as_status
-
 from ops import testing
+
 
 def status_is(state_out: testing.State, to_status: StatusObject, is_app: bool = False) -> bool:
     """Check if the status is set to the given status."""

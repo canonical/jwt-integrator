@@ -67,6 +67,7 @@ markers = ["unstable"]
 line-length = 99
 src = ["src", "tests"]
 extend-exclude = ["__pycache__", "*.egg_info"]
+exclude = ["tests/integration/requirer-charm/lib"]
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "C", "N", "D", "I001"]
