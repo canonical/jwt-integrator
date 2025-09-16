@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass
 from typing import Optional
 
-from lib.charms.data_platform_libs.v0.data_interfaces import Data, get_encoded_list, REQ_SECRET_FIELDS, PROV_SECRET_FIELDS
+from charms.data_platform_libs.v0.data_interfaces import Data, get_encoded_list, REQ_SECRET_FIELDS, PROV_SECRET_FIELDS
 from ops import Model, Relation
 
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ class JWTAuthConfiguration:
             data["jwt-url-parameter"] = self.jwt_url_parameter
 
         if self.subject_key:
-            data[subject-key] = self.subject_key
+            data["subject-key"] = self.subject_key
 
         if self.required_audience:
             data["required-audience"] = self.required_audience
@@ -57,7 +57,13 @@ class JWTAuthConfiguration:
 
 
 class JwtProviderData(Data):
-    """The Data abstraction of the provider side of JWT configuration relation."""
+    """Implements the provider side of JWT configuration relation.
+
+    This class inherits directly from data_interfaces.Data and not from ProviderData because
+    the JWT interface does not need a request-field from requirer side in the databag before
+    the data from provider side is added. Thereby we avoid running into `PrematureDataAccessError`
+    in `update_relation_data`.
+    """
     def __init__(self, model: Model, relation_name: str) -> None:
         super().__init__(model, relation_name)
 

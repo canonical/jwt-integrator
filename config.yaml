@@ -30,7 +30,7 @@ options:
     type: string
     description: The target issuer of JWT stored in the JSON payload.
   jwt-clock-skew-tolerance:
-    type: integer
+    type: int
     description: |
       Time in seconds that is tolerated as disparity between the authentication 
       parties, preventing authentication failures due to the misalignment.

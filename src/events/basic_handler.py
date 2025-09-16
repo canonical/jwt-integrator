@@ -48,7 +48,7 @@ class BasicEvents(Object):
         if not self.charm.unit.is_leader():
             return
 
-        logger.debug(f"Config changed... Current configuration: {self.charm.config}")
+        logger.debug(f"Config changed... current configuration: {self.charm.config}")
         self.charm.jwt_config_manager.update_provider_data()
 
     def _on_secret_changed(self, event: ops.SecretChangedEvent) -> None:

@@ -11,8 +11,8 @@ from data_platform_helpers.advanced_statuses.protocol import ManagerStatusProtoc
 from data_platform_helpers.advanced_statuses.types import Scope
 from ops.model import ConfigData
 
-from src.core.state import State
-from src.statuses import CharmStatuses
+from core.state import State
+from statuses import CharmStatuses
 
 logger = logging.getLogger(__name__)
 
