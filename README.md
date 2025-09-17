@@ -55,7 +55,7 @@ Relations are supported via the `jwt` interface. To create a relation:
 juju integrate jwt-integrator application
 ```
 
-To remove relation a relation:
+To remove the relation:
 ```bash
 juju remove-relation jwt-integrator application
 ```
