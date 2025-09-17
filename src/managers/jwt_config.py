@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class JwtConfigManager(ManagerStatusProtocol):
-    """Handle the configuration of etcd."""
+    """Handle the configuration of JWT authentication."""
 
     name: str = "jwt-config"
     state: State

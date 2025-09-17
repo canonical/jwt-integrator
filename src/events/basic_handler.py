@@ -15,15 +15,13 @@ logger = logging.getLogger(__name__)
 
 
 class BasicEvents(Object):
-    """Handle all base and etcd related events."""
+    """Handle all base events."""
 
     def __init__(self, charm):
         super().__init__(charm, key="basic_events")
         self.charm = charm
 
         # --- Basic charm events ---
-        self.framework.observe(self.charm.on.start, self._on_start)
-        self.framework.observe(self.charm.on.update_status, self._on_update_status)
         self.framework.observe(self.charm.on.config_changed, self._on_config_changed)
         self.framework.observe(self.charm.on.secret_changed, self._on_secret_changed)
 
@@ -34,14 +32,6 @@ class BasicEvents(Object):
         self.framework.observe(
             self.charm.on[JWT_CONFIG_RELATION].relation_changed, self._on_jwt_relation_events
         )
-
-    def _on_start(self, event: ops.StartEvent) -> None:
-        """Handle the charm startup event."""
-        pass
-
-    def _on_update_status(self, event: ops.UpdateStatusEvent) -> None:
-        """Handle the update_status event."""
-        pass
 
     def _on_config_changed(self, event: ops.ConfigChangedEvent) -> None:
         """Handle the config_changed event."""

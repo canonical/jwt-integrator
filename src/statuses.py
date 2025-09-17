@@ -16,6 +16,7 @@ class CharmStatuses(Enum):
 
     ACTIVE_IDLE = StatusObject(status="active", message="")
     CONFIG_OPTIONS_INVALID = StatusObject(
-        status="blocked", message="invalid configuration parameters, check log for more info"
+        status="blocked",
+        message="Missing 'signing-key' or 'roles-key' configuration - check logs for more details",
     )
     NO_PROVIDER_RELATION = StatusObject(status="blocked", message="no relation for jwt interface")

@@ -17,7 +17,7 @@ from ops import Model, Relation
 logger = logging.getLogger(__name__)
 
 
-@dataclass()
+@dataclass
 class JWTAuthConfiguration:
     """Model class for the configuration parameters of JWT authentication."""
 
