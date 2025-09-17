@@ -23,8 +23,8 @@ juju deploy jwt-integrator --channel 1/edge
 
 To configure the jwt-integrator charm, you may provide the following configuration options:
   
-- `signing-key`: the signing key(s) used to verify the token, provided as a user secret.
-- `roles-key`: the key in the JSON payload that stores the user’s roles.
+- `signing-key`: **(required)** the signing key(s) used to verify the token, provided as a user secret.
+- `roles-key`: **(required)** the key in the JSON payload that stores the user’s roles.
 - `jwt-header`: the HTTP header in which the token is transmitted (typically the `Authorization` header).
 - `jwt-url-parameter`: the HTTP URL parameter to use if not using the `jwt-header`.
 - `subject-key`: the key in the JSON payload that stores the username.
