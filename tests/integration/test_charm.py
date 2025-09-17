@@ -40,7 +40,8 @@ async def test_build_and_deploy(charm: str, requirer_charm: str, ops_test: OpsTe
 
     await ops_test.model.wait_for_idle(apps=[APP_NAME], status="blocked")
     assert (
-        "invalid configuration parameters" in ops_test.model.applications[APP_NAME].status_message
+        "Missing 'signing-key' or 'roles-key' configuration"
+        in ops_test.model.applications[APP_NAME].status_message
     ), "should be blocked because of invalid configuration"
 
 
