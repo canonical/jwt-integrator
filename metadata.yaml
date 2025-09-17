@@ -1,0 +1,36 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+# This file is still required due to data-platform-workflows not supporting unified
+# charmcraft.yaml syntax. Details see:
+# https://github.com/canonical/data-platform-workflows/issues/169
+name: jwt-integrator
+title: JWT Configuration Integrator
+summary: A provider charm for JWT authentication configuration.
+description: |
+  JWT Integrator is an integrator charm for providing configuration for JWT 
+  authentication to consumer charms. It simplifies operations by providing 
+  a single point of configuration for all requirers.
+  
+  Currently it supports bare-metal/virtual-machine deployments.
+docs: to be added
+source: https://github.com/canonical/jwt-integrator
+issues: https://github.com/canonical/jwt-integrator/issues
+website:
+  - https://ubuntu.com/data
+  - https://github.com/canonical/jwt-integrator
+  - https://launchpad.net/~data-platform
+  - https://chat.charmhub.io/charmhub/channels/data-platform
+maintainers:
+  - Data Platform Team <data-platform@lists.launchpad.net>
+
+assumes:
+  - juju >= 3.6.0
+
+peers:
+  status-peers:
+    interface: status_peers
+
+provides:
+  jwt-configuration:
+    interface: jwt

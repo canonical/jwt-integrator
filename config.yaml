@@ -1,0 +1,36 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+options:
+  signing-key:
+    type: secret
+    description: |
+      The signing key(s) used to verify the token. Multiple keys can be used 
+      in a comma-separated list or enumerated keys.
+  jwt-header:
+    type: string
+    description: |
+      The HTTP header in which the token is transmitted. This is typically the 
+      Authorization header.
+  jwt-url-parameter:
+    type: string
+    description: |
+      If the token is not transmitted in the HTTP header but rather as an URL 
+      parameter, this option defines the name of the URL parameter used.
+  subject-key:
+    type: string
+    description: The key in the JSON payload that stores the username.
+  roles-key:
+    type: string
+    description: The key in the JSON payload that stores the user’s roles.
+  required-audience:
+    type: string
+    description: The name of the audience that the JWT must specify.
+  required-issuer:
+    type: string
+    description: The target issuer of JWT stored in the JSON payload.
+  jwt-clock-skew-tolerance:
+    type: int
+    description: |
+      Time in seconds that is tolerated as disparity between the authentication 
+      parties, preventing authentication failures due to the misalignment.

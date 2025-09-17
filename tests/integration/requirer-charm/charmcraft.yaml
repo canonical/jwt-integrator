@@ -1,0 +1,21 @@
+# This file configures Charmcraft.
+# See https://canonical-charmcraft.readthedocs-hosted.com/en/stable/reference/files/charmcraft-yaml-file/
+type: charm
+name: requirer-charm
+title: Requirer charm for JWT integration
+summary: This charm serves for testing the JWT integration.
+description: |
+  This charm serves for testing the JWT integration.
+
+platforms:
+  ubuntu@24.04:amd64:
+
+
+parts:
+  charm:
+    plugin: charm
+    source: .
+
+requires:
+  jwt-configuration:
+    interface: jwt
