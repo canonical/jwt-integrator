@@ -12,7 +12,7 @@ options:
     description: |
       The HTTP header in which the token is transmitted. This is typically the 
       Authorization header.
-  jwt_url-parameter:
+  jwt-url-parameter:
     type: string
     description: |
       If the token is not transmitted in the HTTP header but rather as an URL 
