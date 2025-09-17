@@ -11,7 +11,7 @@ A provider charm for JWT authentication configuration.
 
 ### Deploying the JWT Integrator
 
-Currently the integrator supports bare-metal/virtual-machine deployments.
+Currently, the integrator supports bare-metal/virtual-machine deployments.
 
 #### Charmhub
 
@@ -21,7 +21,7 @@ juju deploy jwt-integrator --channel 1/edge
 
 ### Configuring the Integrator
 
-To configure the jwt integrator charm, you may provide the following configuration options:
+To configure the jwt-integrator charm, you may provide the following configuration options:
   
 - `signing-key`: the signing key(s) used to verify the token, provided as a user secret.
 - `roles-key`: the key in the JSON payload that stores the user’s roles.
@@ -33,6 +33,19 @@ To configure the jwt integrator charm, you may provide the following configurati
 - `jwt-clock-skew-tolerance`: time in seconds that is tolerated as clock disparity between the authentication parties.
 
 The only mandatory fields for the integrator are `signing-key` and `roles-key`.
+
+To create a user secret containing the `signing-key`, follow these steps:
+
+```shell
+juju add-secret jwt-key signing-key="eyJhbGciOiAiSFMyNTYiLCAidHlwIjogI..."
+secret:<your-secret-id>
+
+juju grant-secret jwt-key jwt-integrator
+
+juju config jwt-integrator signing-key=secret:<your-secret-id>
+```
+
+Provide the key used for signing your self-contained JWT's instead of the example above.
 
 ## Relations 
 
