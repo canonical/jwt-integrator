@@ -13,7 +13,7 @@ description: |
   a single point of configuration for all requirers.
   
   Currently it supports bare-metal/virtual-machine deployments.
-docs: to be added
+docs: https://github.com/canonical/jwt-integrator/README.md
 source: https://github.com/canonical/jwt-integrator
 issues: https://github.com/canonical/jwt-integrator/issues
 website:
