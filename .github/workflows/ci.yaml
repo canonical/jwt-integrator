@@ -58,7 +58,7 @@ jobs:
       fail-fast: false
       matrix:
         juju:
-          - agent: 3.6.9  # renovate: juju-agent-pin-minor
+          - agent: 3.6.12  # renovate: juju-agent-pin-minor
         cloud:
           - lxd
         architecture:
