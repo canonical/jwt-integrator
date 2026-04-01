@@ -29,7 +29,6 @@ def requirer_charm() -> str:
     return "./tests/integration/requirer-charm/requirer-charm_ubuntu@24.04-amd64.charm"
 
 
-@pytest.mark.runner("ubuntu-22.04")
 @pytest.mark.group(1)
 @pytest.mark.abort_on_fail
 async def test_build_and_deploy(charm: str, requirer_charm: str, ops_test: OpsTest) -> None:
@@ -46,7 +45,6 @@ async def test_build_and_deploy(charm: str, requirer_charm: str, ops_test: OpsTe
     ), "should be blocked because of invalid configuration"
 
 
-@pytest.mark.runner("ubuntu-22.04")
 @pytest.mark.group(1)
 @pytest.mark.abort_on_fail
 async def test_configure_jwt_integrator(ops_test: OpsTest) -> None:
@@ -73,7 +71,6 @@ async def test_configure_jwt_integrator(ops_test: OpsTest) -> None:
     ), "should be blocked because of missing relation"
 
 
-@pytest.mark.runner("ubuntu-22.04")
 @pytest.mark.group(1)
 @pytest.mark.abort_on_fail
 async def test_relate_client_charm(ops_test: OpsTest) -> None:
