@@ -13,6 +13,7 @@ METADATA = yaml.safe_load(Path("./metadata.yaml").read_text())
 APP_NAME: str = METADATA["name"]
 REQUIRER_NAME = "requirer-charm"
 
+
 @pytest.fixture
 def machine_platform() -> str:
     """Get the machine platform running the tests."""
