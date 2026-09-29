@@ -15,18 +15,37 @@ REQUIRER_NAME = "requirer-charm"
 
 
 @pytest.fixture
-def charm() -> str:
+def machine_platform() -> str:
+    """Get the machine platform running the tests."""
+    import platform
+
+    return platform.machine()
+
+
+@pytest.fixture
+def architecture(machine_platform: str) -> str:
+    """Get the architecture of the machine running the tests."""
+    if machine_platform == "x86_64":
+        return "amd64"
+    elif machine_platform == "aarch64":
+        return "arm64"
+    else:
+        raise ValueError(f"Unsupported machine platform: {machine_platform}")
+
+
+@pytest.fixture
+def charm(architecture: str) -> str:
     """Path to the charm file to use for testing."""
     # Return str instead of pathlib.Path since python-libjuju's model.deploy(), juju deploy, and
     # juju bundle files expect local charms to begin with `./` or `/` to distinguish them from
     # Charmhub charms.
-    return "./jwt-integrator_ubuntu@24.04-amd64.charm"
+    return f"./jwt-integrator_ubuntu@24.04-{architecture}.charm"
 
 
 @pytest.fixture
-def requirer_charm() -> str:
+def requirer_charm(architecture: str) -> str:
     """Path to the requirer charm file to use for testing."""
-    return "./tests/integration/requirer-charm/requirer-charm_ubuntu@24.04-amd64.charm"
+    return f"./tests/integration/requirer-charm/requirer-charm_ubuntu@24.04-{architecture}.charm"
 
 
 @pytest.mark.group(1)
